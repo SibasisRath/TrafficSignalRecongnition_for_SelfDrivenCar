@@ -14,7 +14,7 @@ labelNames = open("signnames.csv").read().strip().split("\n")[1:]
 labelNames = [l.split(",")[1] for l in labelNames]
 model=load_model('trafficnet.h5')
 
-image = io.imread('14.png')
+image = io.imread('14.jpg')
 image = transform.resize(image, (32, 32))
 image = exposure.equalize_adapthist(image, clip_limit=0.1)
 			# preprocess the image by scaling it to the range [0, 1]

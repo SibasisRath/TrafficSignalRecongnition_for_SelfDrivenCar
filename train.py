@@ -15,7 +15,7 @@ import random
 import os
 
 def load_split(basePath, csvPath):
-    	# initialize the list of data and labels
+    # initialize the list of data and labels
 	data = []
 	labels = []
 	# load the contents of the CSV file, remove the first line (since
