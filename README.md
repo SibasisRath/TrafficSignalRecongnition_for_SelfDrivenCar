@@ -75,7 +75,7 @@ conda activate traffic-sign-rec
 
 ### 4. Train the Model
 
-My trained model is available here : [trafficnet.keras](https://github.com/your-username/traffic-sign-recognition .
+My trained model is available here : [trafficnet.keras](https://github.com/SibasisRath/TrafficSignalRecongnition_for_SelfDrivenCar/blob/main/trafficnet.keras).
 
 So without training the model you can directly use the trained model for prediction.
 Retraing the model with the same dataset and no changes in the training script will result the same.
