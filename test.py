@@ -10,9 +10,9 @@ import numpy as np
 import argparse
 import imutils
 firstFrame = None
-labelNames = open("signnames.csv").read().strip().split("\n")[1:]
+labelNames = open(os.path.join("dataset", "signnames.csv")).read().strip().split("\n")[1:]
 labelNames = [l.split(",")[1] for l in labelNames]
-model=load_model('trafficnet.h5')
+model=load_model('trafficnet.keras')
 '''
 image = io.imread('image.png')
 image = transform.resize(image, (32, 32))
@@ -95,4 +95,3 @@ while True:
 # cleanup the camera and close any open windows
 vs.release()
 cv2.destroyAllWindows()
-cv2.release

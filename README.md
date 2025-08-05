@@ -20,8 +20,8 @@ This repository implements a robust traffic sign recognition system:
 | `train.py` | Loads data, preprocesses, trains the model, visualizes training progress |
 | `predict.py` | Loads trained model, predicts class of new input images |
 | `signnames.csv` | Maps class indices to human-readable traffic sign names |
-| `file.py`,<br> `new_try.py` | Experimental scripts for testing ideas or data exploration |
-| `test.py`,<br>`testing.py` | Evaluates trained model performance on separate test sets |
+| `environment.yml` | Conda environment file for reproducible dependency management |
+| `application.py` | Evaluates trained model performance on separate test sets |
 | `trafficnet.h5` | Pre-trained network weights (binary, auto-generated after training) |
 | `plot.png` | Training/validation accuracy and loss visualization |
 | `example/` | Example images and/or test inputs |
@@ -39,7 +39,7 @@ This repository implements a robust traffic sign recognition system:
 3. **Training (`train.py`)**
     - Compiles the model with Adam optimizer and categorical crossentropy loss for multi-class classification.
     - Trains the model over several epochs, logging accuracy and loss (saved as `plot.png`).
-    - Saves trained weights to `trafficnet.h5`.
+    - Saves trained weights to `trafficnet.keras`.
 4. **Evaluation (`test.py`/`testing.py`)**
     - Loads model and test set.
     - Outputs accuracy, optionally confusion matrix and misclassification analysis.
@@ -49,45 +49,61 @@ This repository implements a robust traffic sign recognition system:
 
 ## 🚀 Quick Start
 
-### 1. Install Dependencies
+### 1. Create the Conda Environment
+
+First, ensure you have Anaconda or Miniconda installed. Then, create the environment from the `environment.yml` file. This will install all necessary dependencies in an isolated environment.
 
 ```bash
-pip install tensorflow numpy pandas pillow matplotlib
+conda env create --file environment.yml --name traffic-sign-rec
 ```
 
 
-### 2. Prepare Data
+### 2. Activate the Environment
 
-- Download and extract a traffic sign dataset (e.g., [GTSRB](https://benchmark.ini.rub.de/gtsrb_news.html)).
-- Place images and CSV label files in the expected folders.
-
-
-### 3. Train the Model
+Activate the newly created environment before running any scripts.
 
 ```bash
-python train.py
+conda activate traffic-sign-rec
+```
+
+
+### 3. Prepare Data
+
+- Download and extract a traffic sign dataset (e.g., [GTSRB](https://www.kaggle.com/datasets/meowmeowmeowmeowmeow/gtsrb-german-traffic-sign)).
+- Extract and place the dataset images and any label files into the appropriate project folders as expected by your scripts (e.g., a `dataset/` directory).
+
+
+### 4. Train the Model
+
+My trained model is available here : [trafficnet.keras](https://github.com/your-username/traffic-sign-recognition .
+
+So without training the model you can directly use the trained model for prediction.
+Retraing the model with the same dataset and no changes in the training script will result the same.
+
+Still if you want to do it for practice or any other reason you can do it by running the following command in the terminal.
+
+With the `traffic-sign-rec` environment active, run the training script.
+
+```bash
+python train.py --dataset "path\to\dataset" --model trafficnet.keras --plot plot.png
 ```
 
 - Adjust hyperparameters or epochs in `train.py` as desired.
-- Training history will be saved as `plot.png`, model as `trafficnet.h5`.
+- Training history will be saved as `plot.png` and the model as `trafficnet.keras`.
 
 
-### 4. Evaluate
+### 5. Evaluate and Predict
 
-```bash
-python test.py
-```
-
-- Review accuracy and details in terminal output.
-
-
-### 5. Predict on New Images
+Use the evaluation and prediction scripts as needed. Ensure the environment is still active.
 
 ```bash
-python predict.py --img_path example/your_image.png
-```
+# Predict a single new image or a directory of images
+python predict.py --model any trained model --images input directory/images --examples output directory
 
-- Prints the predicted sign class.
+# run the application and try
+python application.py
+# make sure your web cam is on.
+```
 
 
 ## 🧠 Example: Predicting a Traffic Sign
@@ -98,8 +114,8 @@ from PIL import Image
 import numpy as np
 import pandas as pd
 
-model = load_model('trafficnet.h5')
-signnames = pd.read_csv('signnames.csv').set_index("ClassId")["SignName"].to_dict()
+model = load_model('model name') 
+signnames = pd.read_csv("Sign names csv file").set_index("ClassId")["SignName"].to_dict()
 
 def predict_image(image_path):
     img = Image.open(image_path).resize((32,32))
@@ -141,3 +157,4 @@ Traffic sign recognition is essential for:
 ## 🙏 Acknowledgements
 
 Inspired by the community and built to support the progress of autonomous vehicle research and practical applications.
+

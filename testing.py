@@ -10,11 +10,11 @@ import numpy as np
 import argparse
 import imutils
 firstFrame = None
-labelNames = open("signnames.csv").read().strip().split("\n")[1:]
+labelNames = open(os.path.join("dataset", "signnames.csv")).read().strip().split("\n")[1:]
 labelNames = [l.split(",")[1] for l in labelNames]
-model=load_model('trafficnet.h5')
+model=load_model('trafficnet.keras')
 
-image = io.imread('14.jpg')
+image = io.imread('00001.png')
 image = transform.resize(image, (32, 32))
 image = exposure.equalize_adapthist(image, clip_limit=0.1)
 			# preprocess the image by scaling it to the range [0, 1]

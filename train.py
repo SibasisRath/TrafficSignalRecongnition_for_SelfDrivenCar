@@ -2,6 +2,7 @@ import matplotlib
 matplotlib.use("Agg")
 from trafficnet import TrafficSignNet
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.optimizers.schedules import ExponentialDecay
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import to_categorical
 from sklearn.metrics import classification_report
@@ -63,7 +64,7 @@ NUM_EPOCHS = 30
 INIT_LR = 1e-3
 BS = 64
 # load the label names
-labelNames = open("signnames.csv").read().strip().split("\n")[1:]
+labelNames = open(os.path.join(args["dataset"], "signnames.csv")).read().strip().split("\n")[1:]
 labelNames = [l.split(",")[1] for l in labelNames]
 # derive the path to the training and testing CSV files
 trainPath = os.path.sep.join([args["dataset"], "Train.csv"])
@@ -94,7 +95,16 @@ aug = ImageDataGenerator(
 	fill_mode="nearest")
 # initialize the optimizer and compile the model
 print("[INFO] compiling model...")
-opt = Adam(lr=INIT_LR, decay=INIT_LR / (NUM_EPOCHS * 0.5))
+steps_per_epoch = trainX.shape[0] // BS
+lr_schedule = ExponentialDecay(
+    initial_learning_rate=INIT_LR,
+    decay_steps=steps_per_epoch,
+    decay_rate=0.96,
+    staircase=True
+)
+
+# opt = Adam(lr=INIT_LR, decay=INIT_LR / (NUM_EPOCHS * 0.5))
+opt = Adam(learning_rate=lr_schedule)
 model = TrafficSignNet.build(width=32, height=32, depth=3,
 	classes=numLabels)
 model.compile(loss="categorical_crossentropy", optimizer=opt,
